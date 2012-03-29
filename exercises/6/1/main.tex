@@ -1,0 +1,68 @@
+\documentclass{article}
+
+\usepackage{geometry} % пакет для установки полей
+\geometry{top=1cm} % отступ сверху
+\geometry{bottom=2cm} % отступ снизу
+\geometry{left=1cm} % отступ справа
+\geometry{right=1cm} % отступ слева
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{asymptote}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{statement}{Утверждение}[section]
+\newtheorem{corollary}{Следствие}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+
+\renewcommand{\proofname}{Доказательство}
+
+\newcommand{\plain}{\mathbb{R}^2}
+\newcommand{\eqdef}{\stackrel{\mathrm{def}}{=}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+unitsize(0.5inch);
+pair a = (0, 0);
+pair b = (-1, 1); 
+pair c = (1, -1);
+draw(a--b);
+draw(b--c);
+dot(a);
+dot(b);
+dot(c);
+label("$v_2$", a, S);
+label("$v_1$", b, S); 
+label("$v_3$", c, S);
+\end{asy}
+\end{center}
+\end{figure}
+
+\begin{statement}
+Каждая вершина графа имеет степень $\geq 3$
+\begin{proof}
+\begin{enumerate}
+\item Степень вершины $\neq 0$ \\
+Д-во: Граф связен.
+\item Степень вершины $\neq 1$ \\
+Д-во: Так как каждая ячейка - это простой полигон. Граф построенный по границе простого полигона является замкнутой цепью. А в замкнутой цепи нет вершин, степень которых $\leq 1$
+\item Степень вершины $\neq 2$ \\
+Д-во: Тогда два ребра ($v_1v_2$ и $v_2v_3$), исходящие из этой вершины, принадлежат двум ячейкам Вороного. Исходя из определения ячейки и метода построения этого графа (ребрами являются отрезки, прямые, лучи), следует, что эти ребра лежат на одной прямой. Тогда смысла в этой вершине нет и ее можно выбросить. Следовательно в графе нет вершин степени два. 
+\end{enumerate}
+\end{proof}
+\end{statement}
+\end{document}

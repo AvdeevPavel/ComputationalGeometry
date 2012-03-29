@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage{geometry} % пакет для установки полей
+\geometry{top=1cm} % отступ сверху
+\geometry{bottom=2cm} % отступ снизу
+\geometry{left=1cm} % отступ справа
+\geometry{right=1cm} % отступ слева
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{asymptote}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{statement}{Утверждение}[section]
+\newtheorem{corollary}{Следствие}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+
+\renewcommand{\proofname}{Доказательство}
+
+\newcommand{\plain}{\mathbb{R}^2}
+\newcommand{\eqdef}{\stackrel{\mathrm{def}}{=}}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{statement}
+Граф - должен быть связен
+\begin{proof}
+В доказательстве я использую, что исходя из построения, грани в графе означают ячейки в диаграмме Вороного. \\ 
+%Каждая ячейка является простым полигоном. Граница полигона образует замкнутую цепь в графе. Замкнутая цепь является циклом.
+Пусть граф не связен. Тогда есть несколько компонент связности. Выберем две соседние компноненты связности. Найдем такие две такие ячейки ($def f_1, f_2$) из разных компонент связности у которых расстояние минимально (расстояние между этими сайтами - минимально). Так как компоненты связности соседние, между этими двумя ячейками ничего нет (сайтов тоже нет). Получаем противоречие с определением ячейки Вороного.    
+\end{proof}
+\end{statement}
+
+\end{document}

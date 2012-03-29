@@ -1,0 +1,81 @@
+\documentclass{article}
+
+\usepackage{geometry} % пакет для установки полей
+\geometry{top=1cm} % отступ сверху
+\geometry{bottom=2cm} % отступ снизу
+\geometry{left=1cm} % отступ справа
+\geometry{right=1cm} % отступ слева
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{asymptote}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{statement}{Утверждение}[section]
+\newtheorem{corollary}{Следствие}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+
+\renewcommand{\proofname}{Доказательство}
+
+\newcommand{\plain}{\mathbb{R}^2}
+\newcommand{\eqdef}{\stackrel{\mathrm{def}}{=}}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{statement}
+Граф - должен быть связен
+\begin{proof}
+Пусть это не так. Тогда существует несколько компонент связности. Рассмотрим любые две из них.
+Для доказательства воспользуемся фактами: 
+\begin{enumerate}
+\item Из способа задания графа будем считать, что компоненты связности задают некие диаграммы Воронового.     
+\item Из определения диаграммы Воронового следует, что в диаграмме существуют сайты, ячейки которого содержат бесконечную точку.
+\end{enumerate}
+Для каждой компоненты связности выберем из множества сайтов, найденных в пункте 2, ближащие. $p_1$ - это сайт из первой компоненты связности, $p_2$ - это сайт из второй компоненты связности. Из определения ячейки $v(p_i) = {p \in \mathbb{R} | \alpha(p, p_i) \leq \alpha(p, p_j)}$ очевидно, что есть линии между $p_1$ и $p_2$. Строя их мы получим пересечения с существующими ребрами, следовательно получим путь из одной компоненты связности в другую.         
+\end{proof}
+\end{statement}
+
+\begin{figure}
+\begin{center}
+\begin{asy}
+unitsize(0.5inch);
+pair a = (0, 0);
+pair b = (-1, 1); 
+pair c = (1, -1);
+draw(a--b);
+draw(b--c);
+dot(a);
+dot(b);
+dot(c);
+label("$v_1$", a, S);
+label("$v_2$", b, S); 
+label("$v_3$", c, S);
+\end{asy}
+\end{center}
+\end{figure}
+
+\begin{statement}
+Каждая вершина графа имеет степень $\geq 3$
+\begin{proof}
+\begin{enumerate}
+\item Степень вершины $\neq 0$ \\
+Д-во: Граф связен.
+\item Степень вершины $\neq 1$ \\
+Д-во: Так как каждая ячейка - это простой полигон. Граф построенный по границе простого полигона является замкнутой цепью. А в замкнутой цепи нет вершин, степень которых $\leq 1$
+\item Степень вершины $\neq 2$ \\
+Д-во: Тогда два ребра ($v_1v_2$ и $v_2v_3$), исходящие из этой вершины, принадлежат двум ячейкам Воронового. Исходя из построения этог графа (ребрами являются отрезки, прямые, лучи), следует, что два ребра лежат на одной прямой.  
+Ячейки, содержащие это ребро, продолжают удолетворять определениие ячейки Воронового.   
+\end{enumerate}
+\end{proof}
+\end{statement}
+\end{document}
