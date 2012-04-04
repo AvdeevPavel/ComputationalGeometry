@@ -1,0 +1,29 @@
+#ifndef NEGIHBORS_H_
+#define NEGIHBORS_H_
+
+#include <unordered_map>
+#include <utility>
+
+#include "algo/Edge.h"
+#include "algo/Node.h"
+
+typedef std::pair<Edge, Node*> mapPair;
+typedef std::unordered_map<Edge, Node*> type_map;
+
+	struct Neighbors { 
+		void setNeighbor(const Edge &e, Node* neighbor); 
+
+		mapPair findDirectionClockwise(const Edge& current) const;
+		mapPair findNeighborTriangleInWedge() const;
+		mapPair findNeighborWedgeInWedge(Edge prev) const;
+		mapPair findNeighborWedgeInTriangle(const Node& triangle) const;
+
+		mapPair getNeighbor(const Edge& e) const;
+		type_map getNeighbors() const;
+
+		void print() const;
+	private: 
+		type_map neighbors;
+	};
+
+#endif

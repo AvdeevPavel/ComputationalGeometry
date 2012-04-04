@@ -1,0 +1,114 @@
+#include "algo/Node.h"
+#include <cassert>
+
+namespace algo 
+{ 
+
+typedef std::pair<Edge, Node*> mapPair;
+typedef std::unordered_map<Edge, Node*> type_map;
+
+void Node::setNeighbor(const Edge &e, Node* neighbor) { 
+	neighbors[e] = neighbor;
+	assert((date.getIsWedge() == true) || (date.getIsWedge() == false && neighbors.size() <= 3));	
+}
+
+void Node::setNeighbors(const mapPair& a, const mapPair& b, const mapPair& c) { 
+	neighbors[a.first] = a.second;
+	neighbors[b.first] = b.second;
+	neighbors[c.first] = c.second;
+	assert((date.getIsWedge() == false) || (date.getIsWedge() == false && neighbors.size() <= 3));	
+}  
+
+void Node::changeNeighbor(const Edge &old, const Edge& e, Node *neighbor) {
+	neighbors.erase(old);
+	neighbors.insert(mapPair(e, neighbor));
+	assert(neighbors.size() <= 3);	
+} 
+
+mapPair Node::findDirectionClockwise(const Edge& current) const { 
+	assert(date.getIsWedge() == true);
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) { 
+		if (it->second->getIsWedge() == true) { 
+			mapPair temp = it->second->findNeighborTriangleInWedge(); 
+			if (current.isClockwise(temp.first)) { 
+				return *it;
+			} 		
+		}  
+	} 
+	print();
+	assert(false);
+	return *(neighbors.end());
+} 
+
+mapPair Node::findNeighborTriangleInWedge() const { 
+	assert(date.getIsWedge() == true);
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) { 
+		if (it->second->getIsWedge() == false) { 
+			return *it;
+		} 
+	} 
+	print();
+	assert(false);
+	return *(neighbors.end());
+} 
+
+mapPair Node::findNeighborWedgeInWedge(Edge prev) const { 
+	assert(date.getIsWedge() == true);
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) { 
+		if (it->second->getIsWedge() == true && it->first != prev) { 
+			return *it;
+		} 
+	} 
+	print();
+	assert(false);
+	return *(neighbors.end());	
+} 
+
+mapPair Node::findNeighborInTriangle(const Node& triangle) const {
+	//assert(date.getIsWedge() == false); 
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) { 
+		if (*(it->second) == triangle) { 
+			return *it;
+		} 
+	} 
+	triangle.print();
+	print();
+	assert(false);
+	return *(neighbors.end()); 
+} 
+
+mapPair Node::getNeighbor(const Edge& e) const { 
+	type_map::const_iterator it = neighbors.find(e);
+	if (it != neighbors.end()) { 
+		return *it;
+	} 
+	print();
+	assert(false); 
+	return *(neighbors.end()); 
+} 
+
+mapPair Node::getNeighborIsEqual(const Edge& e) const { 
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) { 
+		if (it->first.isEqual(e)) { 
+			return *it;
+		} 
+	} 
+	print();
+	assert(false);
+	return *(neighbors.end()); 
+} 
+			
+type_map Node::getNeighbors() const { 
+	return neighbors;
+} 
+
+void Node::printNeighbors() const { 
+	printf("::::::Neigbors:\n");
+	for(type_map::const_iterator it = neighbors.begin(); it != neighbors.end(); ++it) {
+		printf("(%d %d)--(%d %d):  ", it->first.x.x, it->first.x.y, it->first.y.x, it->first.y.y);
+		it->second->print(); 
+	}
+} 
+
+} 
+
