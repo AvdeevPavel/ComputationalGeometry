@@ -2,6 +2,7 @@
 
 #include "algo/Node.h"
 #include <unordered_map>
+#include <algorithm>
 #include <queue>
 #include <cassert>
 
@@ -16,22 +17,32 @@ typedef std::pair<Edge, Node*> mapPair;
 typedef std::unordered_map<Edge, Node*> type_map;
 
 void Delone::addPoint(const point_type &pt) {
+	static bool flag = false; 
 	//printf("-------------NEW_POINT---------------\n");
 
 	points.push_back( new my_point(pt) );
 
-	if (points.size() == 3) {
-		points.push_back( new my_point(0, 0, 1) );
-		Node* current = triangleGraph.createFirstTriangle(points[0], points[1], points[2], points[3]);		
-		answer.insert(current->getDate());
-	} else if (points.size() > 3) { 
+	if (flag) { 
 		//printf(":::::::::Find::::::::::\n");
 		Node *current = triangleGraph.localizationInTriangle(*(points.back())); 
 		//printf("-----We go in algorithm with ");
 		//current->print(); 
 		flipTriangles(current, points.back());
-	} 
+	} else if (points.size() > 2) { 
+		if (orient(*points[0], *points[1], *(points.back()) ) != 0) {
+			points.push_back( new my_point(0, 0, 1) );
 
+			Node* current = triangleGraph.createFirstTriangle(points[0], points[1], points[points.size() - 2], points.back());		
+			answer.insert(current->getDate());
+			
+			for(auto it = points.begin() + 2; it != points.end() - 2; ++it) { 
+				Node *local = triangleGraph.localizationInTriangle(*(*it)); 
+				flipTriangles(local, *it);
+			}
+
+			flag = true;
+		} 
+	} 
 	//printf("---------------END--------------------\n"); 
 } 
 
