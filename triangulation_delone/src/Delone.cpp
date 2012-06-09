@@ -25,7 +25,7 @@ void Delone::addPoint(const point_type &pt) {
 	if (flag) { 
 		//printf(":::::::::Find::::::::::\n");
 		Node *current = triangleGraph.localizationInTriangle(*(points.back())); 
-		//printf("-----We go in algorithm with ");
+		//printf("-----We go in algorithm with: ");
 		//current->print(); 
 		flipTriangles(current, points.back());
 	} else if (points.size() > 2) { 
@@ -47,6 +47,7 @@ void Delone::addPoint(const point_type &pt) {
 } 
 
 void Delone::flipTriangles(Node* const current, my_point * const point) { 
+	//printf("-------------FLIP TRIANGLES---------------\n");
 	std::vector<Node*> erase;
 	std::vector<Node*> result = current->putPointInTriangle(point, erase);
 	std::queue<Node*> myQueue;
@@ -65,6 +66,7 @@ void Delone::flipTriangles(Node* const current, my_point * const point) {
 		} 
 	} 
 
+	//printf("::::::We start new operation flip:::::\n");
 	Node *now = NULL;
 	while(!myQueue.empty()) { 
 		now = myQueue.front(); 

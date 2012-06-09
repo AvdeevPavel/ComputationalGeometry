@@ -1,6 +1,7 @@
 #include "algo/Node.h"
 #include <cassert>
 #include <cstdio>
+#include <queue>
 
 namespace algo
 { 
@@ -142,7 +143,7 @@ std::vector<Node*> Node::putPointInTriangle(my_point * const point, std::vector<
 			result.push_back(firstNeighbor); 
 			result.push_back(secondNeighbor);
 		} 
-	} else {
+	} else if (date.getIsWedge() == true || date.isOnEdgeInTriangle(*point) == false) {
 		std::vector<my_point*> coordiantes = getCoordinates();
 		Node *first = new Node(Triangle(coordiantes[0], coordiantes[1], point));
 		Node *second = new Node(Triangle(coordiantes[1], coordiantes[2], point));
@@ -176,23 +177,9 @@ std::vector<Node*> Node::putPointInTriangle(my_point * const point, std::vector<
 	return result;
 } 
 
-
-Node* Node::localizationInTriangle(const my_point& point) { 
-	if (childs.empty()) { 
-		return this; 
-	} 
-
-	for(std::vector<Node*>::iterator it = childs.begin(); it != childs.end(); ++it) { 
-		if ((*it)->isHere(point)) { 
-			//printf("We here sub triangle: ");
-			//(*it)->print();
-			return (*it)->localizationInTriangle(point);
-		} 
-	}
-	//printChilds(); 
-	assert(false);
-	return this;
-}
+bool Node::isEmptyChilds() const { 
+	return childs.empty();
+} 
 
 std::vector<Node*> Node::flip(std::pair<const Edge, Node*>& triangle) { 
 	//printf("---------operation FLIP\n");

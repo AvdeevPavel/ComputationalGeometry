@@ -45,7 +45,7 @@ namespace algo {
 		bool isHere(const my_point& point) const;
 
 		/*Methods*/
-		Node* localizationInTriangle(const my_point &point);
+		bool isEmptyChilds() const;
 		std::vector<Node*> putPointInTriangle(my_point * const point, std::vector<Node*>& erase);
 		std::vector<Node*> flip(std::pair<const Edge, Node*>& triangle);
 

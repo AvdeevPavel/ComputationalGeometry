@@ -108,6 +108,9 @@ bool Triangle::getIsWedge() const {
 } 
 
 std::vector<my_point*> Triangle::getCoordinates() const {
+	/*if (coordinates.size() != 3) { 
+		printf("aborted "%d\n", coordinates.size());
+	} */ 
 	assert(coordinates.size() == 3);
 	return coordinates;  
 } 

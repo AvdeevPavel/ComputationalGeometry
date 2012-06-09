@@ -51,12 +51,35 @@ triangle_delone_window::triangle_delone_window(): max_size_coordinate(30000), mi
 			if (fileIn) { 
 				point_type pt; 
 				while(fileIn >> pt) {
+					if ((pt.x >= min_size_coordinate && pt.x<= max_size_coordinate) && (pt.y >= min_size_coordinate && pt.y <= max_size_coordinate)) { 
+						if (points.count(pt) == 0) { 
+							points.insert(pt);
+							builder.addPoint(pt);
+						}
+					} else { 
+						std::cout << "Sorry " << pt << " - have big coordiantes. -30000 <= x,y <= 30000" << std::endl;
+					}  		 
+				}
+			} 
+		} else if (args[1] == "-rt") { 
+			srand( time(NULL) );
+			std::string number = args[2].toStdString(); 
+			if (!number.empty()) { 
+				size_t count_pointer = 0; 
+				for(auto it = number.begin(); it != number.end(); ++it) { 
+					count_pointer = count_pointer * 10  + (*it - '0'); 
+				} 
+
+				while(count_pointer) { 	
+					point_type pt(min_size_coordinate + rand() % (2 * max_size_coordinate), min_size_coordinate + rand() % (2 * max_size_coordinate)); 
 					if (points.count(pt) == 0) { 
 						points.insert(pt);
 						builder.addPoint(pt);
-					} 	 
+					}
+					--count_pointer; 
 				}
-			} 
+				printf("end build\n");
+			}
 		} 
 	} 
 }

@@ -3,6 +3,7 @@
 #include "algo/Triangle.h"
 
 #include <cassert>
+#include <queue>
 #include <cstdio> //del
 
 namespace algo { 
@@ -44,15 +45,29 @@ Node* Graph::createFirstTriangle(my_point * const a, my_point * const b, my_poin
 
 
 Node* Graph::localizationInTriangle(const my_point& point) { 
+	std::queue<Node*> myQueue; 
+
 	for(std::vector<Node*>::iterator it = startVertexGraph.begin(); it != startVertexGraph.end(); ++it) { 	
 		if ((*it)->isHere(point) == true) { 			
 			//printf("We have this triangle\n"); 
 			//(*it)->print();
-			return (*it)->localizationInTriangle(point);
+			myQueue.push(*it);
 		} 
 	} 
-	assert(false);
-	return NULL;
+
+	while(!myQueue.front()->isEmptyChilds()) {
+		Node* now = myQueue.front();	
+		myQueue.pop(); 
+		auto childs = now->getChild();
+		for(std::vector<Node*>::iterator it = childs.begin(); it != childs.end(); ++it) { 
+			if ((*it)->isHere(point)) {  
+				myQueue.push(*it);
+			} 
+		} 
+	} 	
+
+	assert(!myQueue.empty());
+	return myQueue.front();
 } 
 
 } 
